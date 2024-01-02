@@ -1,10 +1,36 @@
+/**
+ * Gets the computer's choice for rock paper scissors
+ * @returns string of rock, paper or scissors
+ */
+function getComputerChoice(){
+
+    let num = Math.floor(Math.random() * 3) + 1;
+    let choice;
+
+    switch(num){
+        case 1:
+            choice = "rock";
+            break;
+        case 2:
+            choice = "paper";
+            break;
+        case 3:
+            choice = "scissors";
+            break;
+    }
+
+    return choice;
+}
+
 function playRound(playerSelection, computerSelection){
 
     playerSelection = playerSelection.toLowerCase();
-    computerSelection = playerSelection.toLowerCase();
+    computerSelection = computerSelection.toLowerCase();
 
+    // Simulate round if 
     while(playerSelection == computerSelection){
 
+        playerSelection = prompt("You tied! Try again").toLowerCase();
         computerSelection = getComputerChoice();
     }
 
@@ -43,30 +69,45 @@ function playRound(playerSelection, computerSelection){
 
 }
 
-/**
- * Gets the computer's choice for rock paper scissors
- * @returns string of rock, paper or scissors
- */
-function getComputerChoice(){
+function game(){
 
-    let num = Math.floor(Math.random() * 3) + 1;
-    let choice;
+    let playerScore = 0;
+    let compScore = 0;
+    let result;
+    let message;
+    let playerMove;
+    let computerMove;
 
-    switch(num){
-        case 1:
-            choice = "rock";
-            break;
-        case 2:
-            choice = "paper";
-            break;
-        case 3:
-            choice = "scissors";
-            break;
+    // Simulate 5 rounds
+    for(let i = 0; i < 5; ++i){
+        
+        // Get the moves
+        playerMove = prompt("Make your move");
+        computerMove = getComputerChoice();
+
+        // 
+        result = playRound(playerMove, computerMove);
+        console.log(result);
+
+        // Increment score for winner
+        if(result.includes("Win")){
+            playerScore++;
+        } else {
+            compScore++;
+        }
+
     }
 
-    return choice;
+    if(playerScore > compScore){
+        message =   "You win!\n";
+    } else {
+        message  = "You lose...\n";
+    }
+
+    message += `player: ${playerScore} \n` +
+                `computer: ${compScore}`;
+
+    console.log(message);
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+game();
