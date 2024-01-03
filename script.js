@@ -1,7 +1,3 @@
-/**
- * Gets the computer's choice for rock paper scissors
- * @returns string of rock, paper or scissors
- */
 function getComputerChoice(){
 
     let num = Math.floor(Math.random() * 3) + 1;
@@ -27,11 +23,11 @@ function playRound(playerSelection, computerSelection){
     playerSelection = playerSelection.toLowerCase();
     computerSelection = computerSelection.toLowerCase();
 
-    // Simulate round if 
-    while(playerSelection == computerSelection){
 
-        playerSelection = prompt("You tied! Try again").toLowerCase();
-        computerSelection = getComputerChoice();
+    if(playerSelection == computerSelection){
+
+        return `Draw! ${playerSelection} ties with ${computerSelection}`;
+
     }
 
     switch (playerSelection) {
@@ -69,37 +65,63 @@ function playRound(playerSelection, computerSelection){
 
 }
 
-function game(){
-
-    let playerScore = 0;
-    let compScore = 0;
-    let result;
-    let message;
-    let playerMove;
-    let computerMove;
-
-    if(playerScore > compScore){
-        message =   "You win!\n";
-    } else {
-        message  = "You lose...\n";
-    }
-
-    message += `player: ${playerScore} \n` +
-                `computer: ${compScore}`;
-
-    console.log(message);
-}
-
 const buttons = document.querySelectorAll('button');
 const divResult = document.querySelector('#result');
+
+let scorePlayer = 0;
+let scoreComp = 0;
+
 
 buttons.forEach((item) => {
 
     item.addEventListener('click', (e) => {
 
-        let winner = playRound(e.target.id, getComputerChoice());
-        console.log(winner);
-        divResult.textContent = winner;
+        if(scorePlayer != 5 && scoreComp != 5){
+
+            let roundWinner = playRound(e.target.id, getComputerChoice());
+            if(roundWinner.includes('Win')){
+
+                scorePlayer++;
+
+            } else if(roundWinner.includes('Lose')){
+
+                scoreComp++;
+
+            }
+
+            roundWinner +=  `\n Player: ${scorePlayer}` +
+                            `\n Computer: ${scoreComp}`;
+
+            appendResult(roundWinner);
+
+        } else {
+
+            let message = "";
+
+            if(scorePlayer > scoreComp){
+
+                message = "Player wins!";
+
+            } else {
+
+                message = "Computer wins!";
+
+            }
+
+            message +=  `\n Player: ${scorePlayer}` +
+                        `\n Computer: ${scoreComp}`;
+
+            appendResult(message);
+
+        }
+
     });
 
 });
+
+function appendResult(result){
+
+    console.log(result);
+    divResult.textContent = result;
+
+}
