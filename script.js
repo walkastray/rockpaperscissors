@@ -78,26 +78,6 @@ function game(){
     let playerMove;
     let computerMove;
 
-    // Simulate 5 rounds
-    for(let i = 0; i < 5; ++i){
-        
-        // Get the moves
-        playerMove = prompt("Make your move");
-        computerMove = getComputerChoice();
-
-        // 
-        result = playRound(playerMove, computerMove);
-        console.log(result);
-
-        // Increment score for winner
-        if(result.includes("Win")){
-            playerScore++;
-        } else {
-            compScore++;
-        }
-
-    }
-
     if(playerScore > compScore){
         message =   "You win!\n";
     } else {
@@ -110,4 +90,16 @@ function game(){
     console.log(message);
 }
 
-game();
+const buttons = document.querySelectorAll('button');
+const divResult = document.querySelector('#result');
+
+buttons.forEach((item) => {
+
+    item.addEventListener('click', (e) => {
+
+        let winner = playRound(e.target.id, getComputerChoice());
+        console.log(winner);
+        divResult.textContent = winner;
+    });
+
+});
